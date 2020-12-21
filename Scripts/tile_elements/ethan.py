@@ -14,9 +14,12 @@ class Ethan(Tile):
         self.scale = 2.0
         self.name = 'Ethan'
         self.load_new_sprite(ETHAN_STANDING, self.scale)
+        self.tile_x = posx
+        self.tile_y = posy
         self.posx = posx * self.scale * 20 + 5
         self.posy = posy * self.scale * 20
-        self.step = 5
+        self.step = 32
+        self.collision = True
 
     def go_right(self):
         self.load_new_sprite(ETHAN_RIGHT, self.scale)

@@ -12,6 +12,7 @@ MAP1 = os.path.join(PROJECT_ROOT, 'Assets/map.txt')
 # Backgrounds
 DOOR_TILE = os.path.join(PROJECT_ROOT, 'Assets/door.png')
 DIRT_TILE = os.path.join(PROJECT_ROOT, 'Assets/dirt.png')
+EMPTY_TILE = os.path.join(PROJECT_ROOT, 'Assets/empty.png')
 
 # Right idle and animation
 ETHAN_RIGHT = os.path.join(PROJECT_ROOT, 'Assets/ethan_right.png')
