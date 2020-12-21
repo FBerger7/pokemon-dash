@@ -42,7 +42,7 @@ class Map:
     def move_ethan_left(self):
         ethan = self.get_ethan()
         if not self.tile_map[ethan.tile_x - 1][ethan.tile_y].collision:
-            ethan.go_right()
+            ethan.go_left()
             self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             ethan.tile_x -= 1
             self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -50,7 +50,7 @@ class Map:
     def move_ethan_up(self):
         ethan = self.get_ethan()
         if not self.tile_map[ethan.tile_x][ethan.tile_y - 1].collision:
-            ethan.go_right()
+            ethan.go_up()
             self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             ethan.tile_y -= 1
             self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -58,7 +58,7 @@ class Map:
     def move_ethan_down(self):
         ethan = self.get_ethan()
         if not self.tile_map[ethan.tile_x][ethan.tile_y + 1].collision:
-            ethan.go_right()
+            ethan.go_down()
             self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             ethan.tile_y += 1
             self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
