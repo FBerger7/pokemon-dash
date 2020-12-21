@@ -7,7 +7,7 @@ from Scripts.map import Map
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
 
 WHITE = (255, 255, 255)
-BLACK = (0, 0, 0)
+BLACK = (9, 12, 41)
 FPS = 60
 
 
@@ -36,19 +36,21 @@ class App:
             self._running = False
 
     def on_loop(self):
-        keys = pygame.key.get_pressed()
-        self.move_delay += 1 if self.move_delay < 3 else self.move_delay
-        move_allowed = self.move_delay > 2
-        if keys:
+        self.move_delay += 1 if self.move_delay < 5 else self.move_delay
+        move_allowed = self.move_delay > 4
+        if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
                 self.move_delay = 0
+                move_allowed = False
             if keys[pygame.K_LEFT] and move_allowed:
                 self.map.move_ethan_left()
                 self.move_delay = 0
+                move_allowed = False
             if keys[pygame.K_UP] and move_allowed:
                 self.map.move_ethan_up()
                 self.move_delay = 0
+                move_allowed = False
             if keys[pygame.K_DOWN] and move_allowed:
                 self.map.move_ethan_down()
                 self.move_delay = 0

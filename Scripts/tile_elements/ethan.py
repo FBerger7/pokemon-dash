@@ -17,8 +17,8 @@ class Ethan(Tile):
         self.tile_x = posx
         self.tile_y = posy
         self.posx = posx * self.scale * 20 + 5
-        self.posy = posy * self.scale * 20
-        self.step = 32
+        self.posy = posy * self.scale * 20 - 2
+        self.step = 40
         self.collision = True
 
     def go_right(self):
