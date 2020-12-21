@@ -2,7 +2,9 @@
 
 import pygame
 
+from Scripts import MAP1
 from Scripts.ethan import Ethan
+from Scripts.map import Map
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
 
 WHITE = (255, 255, 255)
@@ -19,26 +21,20 @@ class App:
         pygame.display.set_caption(GAME_TITLE)
 
         self.ethan = None
+        self.door = None
+        self.map = None
 
     def on_init(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
+        self.map = Map().load(MAP1)
         self.ethan = Ethan()
-        # self.all_sprites.add(self.ethan)
+        # self.door = Door()
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
-        # if event.type == pygame.KEYDOWN:
-        #     if event.key == pygame.K_RIGHT:
-        #         self.ethan.go_right()
-        #     if event.key == pygame.K_LEFT:
-        #         self.ethan.go_left()
-        #     if event.key == pygame.K_UP:
-        #         self.ethan.go_up()
-        #     if event.key == pygame.K_DOWN:
-        #         self.ethan.go_down()
 
     def on_loop(self):
         keys = pygame.key.get_pressed()
@@ -54,7 +50,11 @@ class App:
 
     def on_render(self):
         self._display_surf.fill(BLACK)
-        self._display_surf.blit(self.ethan.sprite, (self.ethan.posx, self.ethan.posy))
+        # self._display_surf.blit(self.ethan.sprite, (self.ethan.posx, self.ethan.posy))
+        # self._display_surf.blit(self.door.sprite, (self.door.posx, self.door.posy))
+        for row in self.map.tile_map:
+            for item in row:
+                self._display_surf.blit(item.sprite, (item.posx, item.posy))
 
     def on_cleanup(self):
         pygame.quit()
