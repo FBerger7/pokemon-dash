@@ -1,10 +1,7 @@
 # -*- coding: utf-8 -*-
-import os
-
-import pygame
 
 from Scripts import ETHAN_STANDING, ETHAN_RIGHT, ETHAN_LEFT, ETHAN_UP
-from Scripts.tile import Tile
+from Scripts.tile_elements.tile import Tile
 
 
 class Ethan(Tile):
@@ -12,12 +9,13 @@ class Ethan(Tile):
     Class representing the main character
     """
 
-    def __init__(self):
+    def __init__(self, posx: int, posy: int):
         super().__init__()
         self.scale = 2.0
+        self.name = 'Ethan'
         self.load_new_sprite(ETHAN_STANDING, self.scale)
-        self.posx = 100
-        self.posy = 100
+        self.posx = posx * self.scale * 20 + 5
+        self.posy = posy * self.scale * 20
         self.step = 5
 
     def go_right(self):

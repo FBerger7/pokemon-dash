@@ -11,8 +11,9 @@ class Tile(pygame.sprite.Sprite):
         super().__init__(*groups)
         self.image = None
         self.size = None
+        self.name = None
         self.sprite = None
-        self.scale = 2.0
+        self.scale = 2.5
 
     @staticmethod
     def load_image(file_path: str) -> pygame.Surface:

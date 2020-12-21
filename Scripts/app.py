@@ -3,7 +3,7 @@
 import pygame
 
 from Scripts import MAP1
-from Scripts.ethan import Ethan
+from Scripts.tile_elements.ethan import Ethan
 from Scripts.map import Map
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
 
@@ -29,7 +29,11 @@ class App:
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
         self.map = Map().load(MAP1)
-        self.ethan = Ethan()
+        for row in self.map.tile_map:
+            for item in row:
+                if item.name == 'Ethan':
+                    self.ethan = item
+        self.ethan = Ethan(100, 100)
         # self.door = Door()
 
     def on_event(self, event):
