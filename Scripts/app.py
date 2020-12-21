@@ -2,7 +2,7 @@
 
 import pygame
 
-from Scripts import MAP1
+from Scripts import MAP1, MUSIC_START, DIG_SOUND, MOVE_SOUND, GEM_SOUND
 from Scripts.map import Map
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
 
@@ -24,12 +24,23 @@ class App:
         self.door = None
         self.map = None
 
+        self.player_dig_sound = None
+        self.player_move_sound = None
+        self.gem_sound = None
+
     def on_init(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
         self.map = Map().load(MAP1)
         self.ethan = self.map.get_ethan()
+
+        # Load music and sounds
+        pygame.mixer.music.load(MUSIC_START)
+        self.player_dig_sound = pygame.mixer.Sound(DIG_SOUND)
+        self.player_move_sound = pygame.mixer.Sound(MOVE_SOUND)
+        self.gem_sound = pygame.mixer.Sound(GEM_SOUND)
+        pygame.mixer.music.play(0)
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -42,15 +53,23 @@ class App:
         if keys:
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
+                pygame.mixer.Sound.play(self.player_dig_sound)
+                pygame.mixer.music.stop()
                 self.move_delay = 0
             if keys[pygame.K_LEFT] and move_allowed:
                 self.map.move_ethan_left()
+                pygame.mixer.Sound.play(self.player_dig_sound)
+                pygame.mixer.music.stop()
                 self.move_delay = 0
             if keys[pygame.K_UP] and move_allowed:
                 self.map.move_ethan_up()
+                pygame.mixer.Sound.play(self.player_dig_sound)
+                pygame.mixer.music.stop()
                 self.move_delay = 0
             if keys[pygame.K_DOWN] and move_allowed:
                 self.map.move_ethan_down()
+                pygame.mixer.Sound.play(self.player_dig_sound)
+                pygame.mixer.music.stop()
                 self.move_delay = 0
 
     def on_render(self):

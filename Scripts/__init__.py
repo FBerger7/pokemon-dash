@@ -27,3 +27,9 @@ ETHAN_UP = os.path.join(PROJECT_ROOT, 'Assets/ethan_up.png')
 
 # Down idle and animation
 ETHAN_STANDING = os.path.join(PROJECT_ROOT, 'Assets/ethan_standing.png')
+
+# Music and sounds
+MUSIC_START = os.path.join(PROJECT_ROOT, 'Music/start.mp3')
+DIG_SOUND = os.path.join(PROJECT_ROOT, 'Music/player_dig.mp3')
+MOVE_SOUND = os.path.join(PROJECT_ROOT, 'Music/player_move.mp3')
+GEM_SOUND = os.path.join(PROJECT_ROOT, 'Music/collect_gem.mp3')
