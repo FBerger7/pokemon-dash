@@ -28,3 +28,6 @@ class Tile(pygame.sprite.Sprite):
         self.image = self.load_image(sprite_path)
         self.size = self.image.get_size()
         self.sprite = pygame.transform.scale(self.image, (int(self.size[0] * scale), int(self.size[1] * scale)))
+
+    def collision(self, map, ethan):
+        return False

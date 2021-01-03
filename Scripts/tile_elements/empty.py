@@ -12,4 +12,6 @@ class Empty(Tile):
         self.tile_y = posy
         self.posx = posx * self.scale * self.size[0]
         self.posy = posy * self.scale * self.size[1]
-        self.collision = False
+
+    def collision(self, map, ethan):
+        return False

@@ -19,7 +19,9 @@ class Ethan(Tile):
         self.posx = posx * self.scale * 20 + 5
         self.posy = posy * self.scale * 20 - 2
         self.step = 40
-        self.collision = True
+
+    def collision(self, map, ethan):
+        return True
 
     def go_right(self):
         self.load_new_sprite(ETHAN_RIGHT, self.scale)
