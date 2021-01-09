@@ -42,3 +42,7 @@ class Ethan(Tile):
     def scalePos(self):
         self.posx = self.tile_x * self.scale * 20 + 5
         self.posy = self.tile_y * self.scale * 20 - 2
+
+    def die(self):
+        #mechanika śmierci
+        return

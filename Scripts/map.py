@@ -39,6 +39,9 @@ class Map:
         ethan.go_right()
         if not self.tile_map[ethan.tile_x + 1][ethan.tile_y].collision(self, ethan):
             self.swapTiles(self.tile_map[ethan.tile_x + 1][ethan.tile_y], ethan)
+
+            if isinstance(self.tile_map[ethan.tile_x - 1][ethan.tile_y-1], Boulder):
+                self.tile_map[ethan.tile_x - 1][ethan.tile_y-1].startFall(self)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_x += 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -48,6 +51,9 @@ class Map:
         ethan.go_left()
         if not self.tile_map[ethan.tile_x - 1][ethan.tile_y].collision(self, ethan):
             self.swapTiles(self.tile_map[ethan.tile_x - 1][ethan.tile_y], ethan)
+
+            if isinstance(self.tile_map[ethan.tile_x + 1][ethan.tile_y-1], Boulder):
+                self.tile_map[ethan.tile_x + 1][ethan.tile_y-1].startFall(self)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_x -= 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -57,6 +63,7 @@ class Map:
         ethan.go_up()
         if not self.tile_map[ethan.tile_x][ethan.tile_y - 1].collision(self, ethan):
             self.swapTiles(self.tile_map[ethan.tile_x][ethan.tile_y - 1], ethan)
+
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_y -= 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -66,6 +73,9 @@ class Map:
         ethan.go_down()
         if not self.tile_map[ethan.tile_x][ethan.tile_y + 1].collision(self, ethan):
             self.swapTiles(self.tile_map[ethan.tile_x][ethan.tile_y + 1], ethan)
+
+            if isinstance(self.tile_map[ethan.tile_x][ethan.tile_y - 2], Boulder):
+                self.tile_map[ethan.tile_x][ethan.tile_y - 2].startFall(self)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_y += 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
