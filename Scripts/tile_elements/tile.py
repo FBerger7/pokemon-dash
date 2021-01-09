@@ -14,6 +14,10 @@ class Tile(pygame.sprite.Sprite):
         self.name = None
         self.sprite = None
         self.scale = 2.5
+        self.tile_x = 0
+        self.tile_y = 0
+        self.posx = 0
+        self.posy = 0
 
     @staticmethod
     def load_image(file_path: str) -> pygame.Surface:
@@ -31,3 +35,7 @@ class Tile(pygame.sprite.Sprite):
 
     def collision(self, map, ethan):
         return False
+
+    def scalePos(self):
+        self.posx = self.tile_x * self.scale * self.size[0]
+        self.posy = self.tile_y * self.scale * self.size[1]

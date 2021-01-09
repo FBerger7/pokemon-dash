@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
 from Scripts import DIRT_TILE
+from Scripts.tile_elements.empty import Empty
 from Scripts.tile_elements.tile import Tile
 
 
@@ -14,4 +15,5 @@ class Dirt(Tile):
         self.posy = posy * self.scale * self.size[1]
 
     def collision(self, map, ethan):
+        map.tile_map[self.tile_x][self.tile_y] = Empty(self.tile_x, self.tile_y)
         return False

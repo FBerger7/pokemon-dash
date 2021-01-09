@@ -36,32 +36,50 @@ class Map:
 
     def move_ethan_right(self):
         ethan = self.get_ethan()
-        if not self.tile_map[ethan.tile_x + 1][ethan.tile_y].collision(self,ethan):
-            ethan.go_right()
-            self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
-            ethan.tile_x += 1
-            self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
+        ethan.go_right()
+        if not self.tile_map[ethan.tile_x + 1][ethan.tile_y].collision(self, ethan):
+            self.swapTiles(self.tile_map[ethan.tile_x + 1][ethan.tile_y], ethan)
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
+            # ethan.tile_x += 1
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
 
     def move_ethan_left(self):
         ethan = self.get_ethan()
-        if not self.tile_map[ethan.tile_x - 1][ethan.tile_y].collision(self,ethan):
-            ethan.go_left()
-            self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
-            ethan.tile_x -= 1
-            self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
+        ethan.go_left()
+        if not self.tile_map[ethan.tile_x - 1][ethan.tile_y].collision(self, ethan):
+            self.swapTiles(self.tile_map[ethan.tile_x - 1][ethan.tile_y], ethan)
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
+            # ethan.tile_x -= 1
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
 
     def move_ethan_up(self):
         ethan = self.get_ethan()
-        if not self.tile_map[ethan.tile_x][ethan.tile_y - 1].collision(self,ethan):
-            ethan.go_up()
-            self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
-            ethan.tile_y -= 1
-            self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
+        ethan.go_up()
+        if not self.tile_map[ethan.tile_x][ethan.tile_y - 1].collision(self, ethan):
+            self.swapTiles(self.tile_map[ethan.tile_x][ethan.tile_y - 1], ethan)
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
+            # ethan.tile_y -= 1
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
 
     def move_ethan_down(self):
         ethan = self.get_ethan()
-        if not self.tile_map[ethan.tile_x][ethan.tile_y + 1].collision(self,ethan):
-            ethan.go_down()
-            self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
-            ethan.tile_y += 1
-            self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
+        ethan.go_down()
+        if not self.tile_map[ethan.tile_x][ethan.tile_y + 1].collision(self, ethan):
+            self.swapTiles(self.tile_map[ethan.tile_x][ethan.tile_y + 1], ethan)
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
+            # ethan.tile_y += 1
+            # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
+
+    def swapTiles(self, tile1, tile2):
+        x = tile2.tile_x
+        y = tile2.tile_y
+        tile2.tile_x = tile1.tile_x
+        tile2.tile_y = tile1.tile_y
+        tile1.tile_x = x
+        tile1.tile_y = y
+
+        self.tile_map[tile2.tile_x][tile2.tile_y] = tile2
+        self.tile_map[tile1.tile_x][tile1.tile_y] = tile1
+
+        tile1.scalePos()
+        tile2.scalePos()
