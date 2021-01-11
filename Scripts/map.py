@@ -38,10 +38,10 @@ class Map:
         ethan = self.get_ethan()
         ethan.go_right()
         if not self.tile_map[ethan.tile_x + 1][ethan.tile_y].collision(self, ethan):
-            self.swapTiles(self.tile_map[ethan.tile_x + 1][ethan.tile_y], ethan)
+            self.swap_tiles(self.tile_map[ethan.tile_x + 1][ethan.tile_y], ethan)
 
-            if isinstance(self.tile_map[ethan.tile_x - 1][ethan.tile_y-1], Boulder):
-                self.tile_map[ethan.tile_x - 1][ethan.tile_y-1].startFall(self)
+            if isinstance(self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1], Boulder):
+                self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1].start_fall(self)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_x += 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -50,10 +50,10 @@ class Map:
         ethan = self.get_ethan()
         ethan.go_left()
         if not self.tile_map[ethan.tile_x - 1][ethan.tile_y].collision(self, ethan):
-            self.swapTiles(self.tile_map[ethan.tile_x - 1][ethan.tile_y], ethan)
+            self.swap_tiles(self.tile_map[ethan.tile_x - 1][ethan.tile_y], ethan)
 
-            if isinstance(self.tile_map[ethan.tile_x + 1][ethan.tile_y-1], Boulder):
-                self.tile_map[ethan.tile_x + 1][ethan.tile_y-1].startFall(self)
+            if isinstance(self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1], Boulder):
+                self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1].start_fall(self)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_x -= 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -62,7 +62,7 @@ class Map:
         ethan = self.get_ethan()
         ethan.go_up()
         if not self.tile_map[ethan.tile_x][ethan.tile_y - 1].collision(self, ethan):
-            self.swapTiles(self.tile_map[ethan.tile_x][ethan.tile_y - 1], ethan)
+            self.swap_tiles(self.tile_map[ethan.tile_x][ethan.tile_y - 1], ethan)
 
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_y -= 1
@@ -72,15 +72,15 @@ class Map:
         ethan = self.get_ethan()
         ethan.go_down()
         if not self.tile_map[ethan.tile_x][ethan.tile_y + 1].collision(self, ethan):
-            self.swapTiles(self.tile_map[ethan.tile_x][ethan.tile_y + 1], ethan)
+            self.swap_tiles(self.tile_map[ethan.tile_x][ethan.tile_y + 1], ethan)
 
             if isinstance(self.tile_map[ethan.tile_x][ethan.tile_y - 2], Boulder):
-                self.tile_map[ethan.tile_x][ethan.tile_y - 2].startFall(self)
+                self.tile_map[ethan.tile_x][ethan.tile_y - 2].start_fall(self)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_y += 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
 
-    def swapTiles(self, tile1, tile2):
+    def swap_tiles(self, tile1, tile2):
         x = tile2.tile_x
         y = tile2.tile_y
         tile2.tile_x = tile1.tile_x
@@ -93,3 +93,5 @@ class Map:
 
         tile1.scalePos()
         tile2.scalePos()
+
+
