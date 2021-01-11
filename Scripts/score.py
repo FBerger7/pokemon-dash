@@ -24,6 +24,9 @@ class Score:
         self.font.render_to(screen, (115, 815), str(int(self.time_left_display)), self._font_color)
         self.font.render_to(screen, (265, 815), 'Score:', self._font_color)
         self.font.render_to(screen, (400, 815), str(self.score_display), self._font_color)
+        self.font.render_to(screen, (650, 815), 'Made by: Franek & Dawid & Rafal', self._font_color)
+
+
         self._start_time = timer()
 
     def increment(self):
