@@ -2,9 +2,12 @@
 
 import pygame
 
-from Scripts import MAP1, MUSIC_START, DIG_SOUND, MOVE_SOUND, GEM_SOUND
+from Scripts import MAP1
 from Scripts.map import Map
-from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
+from Scripts.music import Music
+from Scripts.sound import Sound
+from Scripts.music_player import MusicPlayer
+from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE, PROJECT_ROOT
 
 WHITE = (255, 255, 255)
 BLACK = (9, 12, 41)
@@ -24,9 +27,7 @@ class App:
         self.door = None
         self.map = None
 
-        self.player_dig_sound = None
-        self.player_move_sound = None
-        self.gem_sound = None
+        self.music_player = None
 
     def on_init(self):
         pygame.init()
@@ -36,11 +37,13 @@ class App:
         self.ethan = self.map.get_ethan()
 
         # Load music and sounds
-        pygame.mixer.music.load(MUSIC_START)
-        self.player_dig_sound = pygame.mixer.Sound(DIG_SOUND)
-        self.player_move_sound = pygame.mixer.Sound(MOVE_SOUND)
-        self.gem_sound = pygame.mixer.Sound(GEM_SOUND)
-        pygame.mixer.music.play(0)
+        self.music_player = MusicPlayer.get_instance()
+        self.music_player.play_music(Music.MUSIC_START_1)
+
+        # self.player_dig_sound = pygame.mixer.Sound(DIG_SOUND_ASSET)
+        # self.player_move_sound = pygame.mixer.Sound(MOVE_SOUND)
+        # self.gem_sound = pygame.mixer.Sound(GEM_SOUND)
+        # pygame.mixer.music.play(0)
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -52,25 +55,30 @@ class App:
         if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
-                pygame.mixer.Sound.play(self.player_dig_sound)
-                pygame.mixer.music.stop()
+                print(Music.MUSIC_START_1.__class__.__name__)
+                print(Music.MUSIC_START_1.value)
+                # self.music_player.play(Music.MUSIC_START)
+                # pygame.mixer.Sound.play(pygame.mixer.Sound(Sound.DIG_SOUND.value))
+                self.music_player.play_sound(self.music_player.DIG_SOUND)
+                # pygame.mixer.Sound.play('D:\PYTHON_GAME\pokemon-dash\Music/collect_gem.mp3')
+                #pygame.mixer.music.stop()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_LEFT] and move_allowed:
                 self.map.move_ethan_left()
-                pygame.mixer.Sound.play(self.player_dig_sound)
+                # pygame.mixer.Sound.play(self.player_dig_sound)
                 pygame.mixer.music.stop()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_UP] and move_allowed:
                 self.map.move_ethan_up()
-                pygame.mixer.Sound.play(self.player_dig_sound)
+                # pygame.mixer.Sound.play(self.player_dig_sound)
                 pygame.mixer.music.stop()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_DOWN] and move_allowed:
                 self.map.move_ethan_down()
-                pygame.mixer.Sound.play(self.player_dig_sound)
+                # pygame.mixer.Sound.play(self.player_dig_sound)
                 pygame.mixer.music.stop()
                 self.move_delay = 0
 
