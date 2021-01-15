@@ -2,14 +2,16 @@
 from Scripts.tile_elements.dirt import Dirt
 from Scripts.tile_elements.empty import Empty
 from Scripts.tile_elements.ethan import Ethan
+from Scripts.tile_elements.gem import Gem
 from Scripts.tile_elements.wall import Wall
 from Scripts.tile_elements.boulder import Boulder
 
 
 class Map:
 
-    def __init__(self):
+    def __init__(self, score):
         self.tile_map: list = []
+        self.score = score
 
     def load(self, file_path: str):
         with open(file_path) as map_logic:
@@ -19,12 +21,14 @@ class Map:
                     self.tile_map.append(list())
                     if sign == '1':
                         self.tile_map[j].append(Wall(j, i))
-                    if sign == '2':
+                    elif sign == '2':
                         self.tile_map[j].append(Dirt(j, i))
-                    if sign == 'e':
+                    elif sign == 'e':
                         self.tile_map[j].append(Ethan(j, i))
-                    if sign == '3':
+                    elif sign == '3':
                         self.tile_map[j].append(Boulder(j, i))
+                    elif sign == '4':
+                        self.tile_map[j].append(Gem(j, i))
         return self
 
     def get_ethan(self) -> Ethan:

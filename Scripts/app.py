@@ -34,9 +34,10 @@ class App:
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
-        self.map = Map().load(MAP1)
-        self.ethan = self.map.get_ethan()
         self.score = Score()
+        self.map = Map(self.score).load(MAP1)
+        self.ethan = self.map.get_ethan()
+
 
         # Load music and sounds
         pygame.mixer.music.load(MUSIC_START)
