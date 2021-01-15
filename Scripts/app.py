@@ -36,14 +36,8 @@ class App:
         self.map = Map().load(MAP1)
         self.ethan = self.map.get_ethan()
 
-        # Load music and sounds
         self.music_player = MusicPlayer.get_instance()
-        self.music_player.play_music(Music.MUSIC_START_1)
-
-        # self.player_dig_sound = pygame.mixer.Sound(DIG_SOUND_ASSET)
-        # self.player_move_sound = pygame.mixer.Sound(MOVE_SOUND)
-        # self.gem_sound = pygame.mixer.Sound(GEM_SOUND)
-        # pygame.mixer.music.play(0)
+        self.music_player.play_music_at_start()
 
     def on_event(self, event):
         if event.type == pygame.QUIT:
@@ -55,31 +49,22 @@ class App:
         if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
-                print(Music.MUSIC_START_1.__class__.__name__)
-                print(Music.MUSIC_START_1.value)
-                # self.music_player.play(Music.MUSIC_START)
-                # pygame.mixer.Sound.play(pygame.mixer.Sound(Sound.DIG_SOUND.value))
                 self.music_player.play_sound(self.music_player.DIG_SOUND)
-                # pygame.mixer.Sound.play('D:\PYTHON_GAME\pokemon-dash\Music/collect_gem.mp3')
-                #pygame.mixer.music.stop()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_LEFT] and move_allowed:
                 self.map.move_ethan_left()
-                # pygame.mixer.Sound.play(self.player_dig_sound)
-                pygame.mixer.music.stop()
+                self.music_player.play_sound(self.music_player.DIG_SOUND)
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_UP] and move_allowed:
                 self.map.move_ethan_up()
-                # pygame.mixer.Sound.play(self.player_dig_sound)
-                pygame.mixer.music.stop()
+                self.music_player.play_sound(self.music_player.DIG_SOUND)
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_DOWN] and move_allowed:
                 self.map.move_ethan_down()
-                # pygame.mixer.Sound.play(self.player_dig_sound)
-                pygame.mixer.music.stop()
+                self.music_player.play_sound(self.music_player.DIG_SOUND)
                 self.move_delay = 0
 
     def on_render(self):

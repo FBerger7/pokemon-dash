@@ -2,9 +2,9 @@ from enum import Enum
 
 import pygame
 
-# from Scripts import MUSIC_START_ASSET, DIG_SOUND_ASSET, MOVE_SOUND_ASSET, GEM_SOUND_ASSET
-from Scripts.music import Music
 from Scripts.sound import Sound
+from Scripts.music import Music
+import random
 
 
 def play_sound(sound):
@@ -14,17 +14,9 @@ def play_sound(sound):
 class MusicPlayer:
     __instance__ = None
 
-    # DIG_SOUND = pygame.mixer.Sound(DIG_SOUND_ASSET)
-    # MOVE_SOUND = pygame.mixer.Sound(MOVE_SOUND_ASSET)
-    # GEM_SOUND = pygame.mixer.Sound(GEM_SOUND_ASSET)
-
-
-
-    # crash_sound = pygame.mixer.Sound("crash.wav")
-    # pygame.mixer.Sound.play(crash_sound)
-
-
     def __init__(self):
+
+        self.random_number = random.randint(1,3)
 
         self.DIG_SOUND = pygame.mixer.Sound(Sound.DIG_SOUND.value)
         self.MOVE_SOUND = pygame.mixer.Sound(Sound.MOVE_SOUND.value)
@@ -39,7 +31,6 @@ class MusicPlayer:
 
         self.channel_main = pygame.mixer.Channel(0)
         self.channel_background = pygame.mixer.Channel(1)
-        # self.load_all_music()
 
     @staticmethod
     def get_instance():
@@ -49,21 +40,21 @@ class MusicPlayer:
             MusicPlayer()
         return MusicPlayer.__instance__
 
-    # @staticmethod
-    # def load_all_music():
-    #     for m in Music.list():
-    #         #print("Halo to ja i: " + m)
-    #         pygame.mixer.music.load(m)
-    #     # for s in Sound.list():
-    #     #     s.value = pygame.mixer.Sound()
+    def play_music_at_start(self):
+        if self.random_number == 1:
+            pygame.mixer.music.load(Music.MUSIC_START_1.value)
+            pygame.mixer.music.play(-1)
+        elif self.random_number == 2:
+            pygame.mixer.music.load(Music.MUSIC_START_2.value)
+            pygame.mixer.music.play(-1)
+        elif self.random_number == 3:
+            pygame.mixer.music.load(Music.MUSIC_START_3.value)
+            pygame.mixer.music.play(-1)
 
     @staticmethod
     def play_music(melody: Enum):
-        # if isinstance(melody, Music):
         pygame.mixer.music.load(melody.value)
         pygame.mixer.music.play(0)
-        # if isinstance(melody, Sound):
-        #
 
     @staticmethod
     def play_sound(sound):
@@ -81,4 +72,3 @@ class MusicPlayer:
     @staticmethod
     def unpause():
         pygame.mixer.music.unpause()
-
