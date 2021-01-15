@@ -34,3 +34,6 @@ MUSIC_START = os.path.join(PROJECT_ROOT, 'Music/start.mp3')
 DIG_SOUND = os.path.join(PROJECT_ROOT, 'Music/player_dig.mp3')
 MOVE_SOUND = os.path.join(PROJECT_ROOT, 'Music/player_move.mp3')
 GEM_SOUND = os.path.join(PROJECT_ROOT, 'Music/collect_gem.mp3')
+
+# Fonts
+DEFAULT_FONT = os.path.join(PROJECT_ROOT, 'Assets/default_game_font.ttf')
