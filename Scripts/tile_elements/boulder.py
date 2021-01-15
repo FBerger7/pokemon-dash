@@ -19,7 +19,7 @@ class Boulder(Tile):
         self.tile_y = posy
         self.posx = posx * self.scale * self.size[0]
         self.posy = posy * self.scale * self.size[1]
-        self.fallThread = None
+        self.fall_thread = None
 
     def collision(self, map, ethan):
         direction = self.tile_x - ethan.tile_x
@@ -35,33 +35,60 @@ class Boulder(Tile):
             return True
 
     def start_fall(self, map):
-        self.fallThread = threading.Thread(target=self.fall, args=(map,))
+        self.fall_thread = threading.Thread(target=self.fall, args=(map,))
         x = map.tile_map[self.tile_x][self.tile_y - 1]
         if isinstance(x, Boulder):
             x.start_fall(map=map)
-        self.fallThread.start()
+        x = map.tile_map[self.tile_x - 1][self.tile_y - 1]
+        if isinstance(x, Boulder):
+            x.start_fall(map=map)
+            x = map.tile_map[self.tile_x + 1][self.tile_y - 1]
+        if isinstance(x, Boulder):
+            x.start_fall(map=map)
+        self.fall_thread.start()
 
     def fall(self, map):
         i = 0
-        while isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Empty) or (
-                isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Boulder)):
-            map.swap_tiles(map.tile_map[self.tile_x][self.tile_y + 1], self)
-            i += 1
+        while True:
+            loop, x, y = self.can_fall(map)
+            if not loop:
+                break
+            if x >= 0 or y >= 0:
+                map.swap_tiles(map.tile_map[x][y], self)
+                i += 1
             pygame.time.wait(80)
-            self.boulder_stack(map)
-        self.fallThread = None
+        # self.boulder_stack(map)
+        self.fall_thread = None
         if isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Ethan) and i > 1:
             map.tile_map[self.tile_x][self.tile_y + 1].die()
         return
 
-    def boulder_stack(self, map):
-        if isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Boulder) and map.tile_map[self.tile_x][
-            self.tile_y + 1].fallThread is None and isinstance(
-            map.tile_map[self.tile_x - 1][self.tile_y], Empty) and isinstance(
-            map.tile_map[self.tile_x - 1][self.tile_y + 1], Empty):
-            map.swap_tiles(self, map.tile_map[self.tile_x - 1][self.tile_y + 1])
-        elif isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Boulder) and map.tile_map[self.tile_x][
-            self.tile_y + 1].fallThread is None and isinstance(
-            map.tile_map[self.tile_x + 1][self.tile_y], Empty) and isinstance(
-            map.tile_map[self.tile_x + 1][self.tile_y + 1], Empty):
-            map.swap_tiles(self, map.tile_map[self.tile_x + 1][self.tile_y + 1])
+    def can_fall(self, map):
+        # fall
+        if isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Empty):
+            return True, self.tile_x, self.tile_y + 1
+        # slip
+        elif isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Boulder):
+
+            # waiting for other boulders
+            if map.tile_map[self.tile_x][self.tile_y + 1].fall_thread is not None:
+                return True, -1, -1
+
+            # left
+            elif isinstance(map.tile_map[self.tile_x - 1][self.tile_y], Empty) and isinstance(
+                    map.tile_map[self.tile_x - 1][self.tile_y + 1], Empty):
+                return True, self.tile_x - 1, self.tile_y + 1
+            # waiting for other boulders
+            elif isinstance(map.tile_map[self.tile_x - 1][self.tile_y + 1], Boulder) and map.tile_map[self.tile_x - 1][
+                self.tile_y + 1].fall_thread is not None:
+                return True, -1, -1
+            # right
+            elif isinstance(map.tile_map[self.tile_x + 1][self.tile_y], Empty) and isinstance(
+                    map.tile_map[self.tile_x + 1][self.tile_y + 1], Empty):
+                return True, self.tile_x + 1, self.tile_y + 1
+            # waiting for other boulders
+            elif isinstance(map.tile_map[self.tile_x + 1][self.tile_y + 1], Boulder) and map.tile_map[self.tile_x + 1][
+                self.tile_y + 1].fall_thread is not None:
+                return True, -1, -1
+
+        return False, -1, -1

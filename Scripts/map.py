@@ -42,6 +42,8 @@ class Map:
 
             if isinstance(self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1], Boulder):
                 self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1].start_fall(self)
+
+            self.check_neighbours(ethan.tile_x - 1, ethan.tile_y)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_x += 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -54,6 +56,8 @@ class Map:
 
             if isinstance(self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1], Boulder):
                 self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1].start_fall(self)
+
+            self.check_neighbours(ethan.tile_x + 1, ethan.tile_y)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_x -= 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -64,9 +68,10 @@ class Map:
         if not self.tile_map[ethan.tile_x][ethan.tile_y - 1].collision(self, ethan):
             self.swap_tiles(self.tile_map[ethan.tile_x][ethan.tile_y - 1], ethan)
 
-            # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
-            # ethan.tile_y -= 1
-            # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
+        self.check_neighbours(ethan.tile_x, ethan.tile_y + 1)
+        # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
+        # ethan.tile_y -= 1
+        # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
 
     def move_ethan_down(self):
         ethan = self.get_ethan()
@@ -76,6 +81,8 @@ class Map:
 
             if isinstance(self.tile_map[ethan.tile_x][ethan.tile_y - 2], Boulder):
                 self.tile_map[ethan.tile_x][ethan.tile_y - 2].start_fall(self)
+
+            self.check_neighbours(ethan.tile_x, ethan.tile_y - 1)
             # self.tile_map[ethan.tile_x][ethan.tile_y] = Empty(ethan.tile_x, ethan.tile_y)
             # ethan.tile_y += 1
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
@@ -94,4 +101,8 @@ class Map:
         tile1.scalePos()
         tile2.scalePos()
 
-
+    def check_neighbours(self, x, y):
+        if isinstance(self.tile_map[x - 1][y], Boulder):
+            self.tile_map[x - 1][y].start_fall(self)
+        if isinstance(self.tile_map[x + 1][y], Boulder):
+            self.tile_map[x + 1][y].start_fall(self)
