@@ -13,4 +13,6 @@ class Wall(Tile):
         self.tile_y = posy
         self.posx = posx * self.scale * self.size[0]
         self.posy = posy * self.scale * self.size[1]
-        self.collision = True
+
+    def collision(self, map, ethan):
+        return True

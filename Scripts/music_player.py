@@ -4,7 +4,6 @@ import pygame
 
 from Scripts.sound import Sound
 from Scripts.music import Music
-import random
 
 
 def play_sound(sound):
@@ -16,7 +15,7 @@ class MusicPlayer:
 
     def __init__(self):
 
-        self.random_number = random.randint(1,3)
+        self.random_number = 0
 
         self.DIG_SOUND = pygame.mixer.Sound(Sound.DIG_SOUND.value)
         self.MOVE_SOUND = pygame.mixer.Sound(Sound.MOVE_SOUND.value)
@@ -31,6 +30,7 @@ class MusicPlayer:
 
         self.channel_main = pygame.mixer.Channel(0)
         self.channel_background = pygame.mixer.Channel(1)
+        pygame.mixer.music.set_volume(0.2)
 
     @staticmethod
     def get_instance():

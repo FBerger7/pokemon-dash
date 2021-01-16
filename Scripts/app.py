@@ -7,7 +7,10 @@ from Scripts.map import Map
 from Scripts.music import Music
 from Scripts.sound import Sound
 from Scripts.music_player import MusicPlayer
-from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE, PROJECT_ROOT
+from Scripts.score import Score
+from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
+from time import sleep
+import random
 
 WHITE = (255, 255, 255)
 BLACK = (9, 12, 41)
@@ -24,6 +27,7 @@ class App:
         pygame.display.set_caption(GAME_TITLE)
 
         self.ethan = None
+        self.score = None
         self.door = None
         self.map = None
 
@@ -33,10 +37,12 @@ class App:
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
         self._running = True
-        self.map = Map().load(MAP1)
+        self.score = Score()
+        self.map = Map(self.score).load(MAP1)
         self.ethan = self.map.get_ethan()
 
         self.music_player = MusicPlayer.get_instance()
+        self.music_player.random_number = random.randint(1, 3)
         self.music_player.play_music_at_start()
 
     def on_event(self, event):
@@ -49,7 +55,7 @@ class App:
         if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
-                self.music_player.play_sound(self.music_player.DIG_SOUND)
+                # self.music_player.play_sound(self.music_player.DIG_SOUND)
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_LEFT] and move_allowed:
@@ -64,7 +70,7 @@ class App:
                 move_allowed = False
             if keys[pygame.K_DOWN] and move_allowed:
                 self.map.move_ethan_down()
-                self.music_player.play_sound(self.music_player.DIG_SOUND)
+                MusicPlayer.play_sound(self.music_player.DIG_SOUND)
                 self.move_delay = 0
 
     def on_render(self):
@@ -72,6 +78,11 @@ class App:
         for row in self.map.tile_map:
             for item in row:
                 self._display_surf.blit(item.sprite, (item.posx, item.posy))
+        self.score.update(self._display_surf)
+        if not self.score.is_time_left():
+            MusicPlayer.play_music(Music.MUSIC_END)
+            sleep(10)
+            self.on_init()
 
     def on_cleanup(self):
         pygame.quit()
