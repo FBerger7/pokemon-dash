@@ -10,6 +10,7 @@ from Scripts.tile_elements.boulder import Boulder
 
 import random
 
+
 class Map:
 
     def __init__(self, score):
@@ -108,54 +109,68 @@ class Map:
             # self.tile_map[ethan.tile_x][ethan.tile_y] = ethan
 
     def move_enemy_right(self, enemy: Enemy):
-        if isinstance(self.tile_map[enemy.tile_x + 1][enemy.tile_y], Ethan):
+        if self.check_if_tile_ethan(enemy.tile_x + 1, enemy.tile_y) \
+                or self.check_if_tile_ethan(enemy.tile_x, enemy.tile_y - 1):
             return True
-        if isinstance(self.tile_map[enemy.tile_x][enemy.tile_y - 1], Empty):
+        if self.check_if_tile_empty(enemy.tile_x, enemy.tile_y - 1):
             self.swap_tiles(self.tile_map[enemy.tile_x][enemy.tile_y - 1], enemy)
             enemy.direction = 0
-        elif isinstance(self.tile_map[enemy.tile_x + 1][enemy.tile_y], Empty):
+        elif self.check_if_tile_empty(enemy.tile_x + 1, enemy.tile_y):
             self.swap_tiles(self.tile_map[enemy.tile_x + 1][enemy.tile_y], enemy)
         else:
             enemy.direction = 2
         return False
 
     def move_enemy_left(self, enemy: Enemy):
-        if isinstance(self.tile_map[enemy.tile_x - 1][enemy.tile_y], Ethan):
+        if self.check_if_tile_ethan(enemy.tile_x - 1, enemy.tile_y) \
+                or self.check_if_tile_ethan(enemy.tile_x, enemy.tile_y + 1):
             return True
-        if isinstance(self.tile_map[enemy.tile_x][enemy.tile_y + 1], Empty):
+        if self.check_if_tile_empty(enemy.tile_x, enemy.tile_y + 1):
             self.swap_tiles(self.tile_map[enemy.tile_x][enemy.tile_y + 1], enemy)
             enemy.direction = 2
-        elif isinstance(self.tile_map[enemy.tile_x - 1][enemy.tile_y], Empty):
+        elif self.check_if_tile_empty(enemy.tile_x - 1, enemy.tile_y):
             self.swap_tiles(self.tile_map[enemy.tile_x - 1][enemy.tile_y], enemy)
         else:
             enemy.direction = 0
         return False
 
     def move_enemy_up(self, enemy: Enemy):
-        if isinstance(self.tile_map[enemy.tile_x][enemy.tile_y - 1], Ethan):
+        if self.check_if_tile_ethan(enemy.tile_x, enemy.tile_y - 1) \
+                or self.check_if_tile_ethan(enemy.tile_x - 1, enemy.tile_y):
             return True
-        if isinstance(self.tile_map[enemy.tile_x - 1][enemy.tile_y], Empty):
+        if self.check_if_tile_empty(enemy.tile_x - 1, enemy.tile_y):
             self.swap_tiles(self.tile_map[enemy.tile_x - 1][enemy.tile_y], enemy)
             enemy.direction = 3
-        elif isinstance(self.tile_map[enemy.tile_x][enemy.tile_y - 1], Empty):
+        elif self.check_if_tile_empty(enemy.tile_x, enemy.tile_y - 1):
             self.swap_tiles(self.tile_map[enemy.tile_x][enemy.tile_y - 1], enemy)
         else:
             enemy.direction = 1
         return False
 
     def move_enemy_down(self, enemy: Enemy):
-        if isinstance(self.tile_map[enemy.tile_x][enemy.tile_y + 1], Ethan):
+        if self.check_if_tile_ethan(enemy.tile_x, enemy.tile_y + 1) \
+                or self.check_if_tile_ethan(enemy.tile_x + 1, enemy.tile_y):
             return True
-        if isinstance(self.tile_map[enemy.tile_x + 1][enemy.tile_y], Empty):
+        if self.check_if_tile_empty(enemy.tile_x + 1, enemy.tile_y):
             self.swap_tiles(self.tile_map[enemy.tile_x + 1][enemy.tile_y], enemy)
             enemy.direction = 1
-        elif isinstance(self.tile_map[enemy.tile_x][enemy.tile_y + 1], Empty):
+        elif self.check_if_tile_empty(enemy.tile_x, enemy.tile_y + 1):
             self.swap_tiles(self.tile_map[enemy.tile_x][enemy.tile_y + 1], enemy)
         else:
             enemy.direction = 3
         return False
 
-    def move_enemy(self, enemy: Enemy):
+    def check_if_tile_ethan(self, tile_x, tile_y):
+        if isinstance(self.tile_map[tile_x][tile_y], Ethan):
+            return True
+        return False
+
+    def check_if_tile_empty(self, tile_x, tile_y):
+        if isinstance(self.tile_map[tile_x][tile_y], Empty):
+            return True
+        return False
+
+    def move_enemy_angry(self, enemy: Enemy):
         x = random.randint(0, 3)
         if x == 0:
             return self.move_enemy_up(enemy)
@@ -166,7 +181,7 @@ class Map:
         elif x == 3:
             return self.move_enemy_left(enemy)
 
-    def move_enemy_test(self, enemy: Enemy):
+    def move_enemy(self, enemy: Enemy):
         if enemy.direction == 0:
             # enemy.direction = 1
             return self.move_enemy_up(enemy)

@@ -59,7 +59,8 @@ class App:
             now = pygame.time.get_ticks()
             if now - en.last >= en.cooldown:
                 en.last = now
-                if self.map.move_enemy_test(en):
+                if self.map.move_enemy(en):
+                    # self.delete_enemies()
                     self.on_init()
         if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
@@ -93,6 +94,10 @@ class App:
                 #     if self.map.move_enemy_down(en):
                 #         self.on_init()
                 self.move_delay = 0
+            if keys[pygame.K_p]:
+                self.music_player.pause()
+            if keys[pygame.K_u]:
+                self.music_player.unpause()
 
     def on_render(self):
         self._display_surf.fill(BLACK)
@@ -119,3 +124,7 @@ class App:
             self.on_render()
             pygame.display.flip()
         self.on_cleanup()
+
+    # def delete_enemies(self):
+    #     for e in self.map.enemies:
+    #         del e
