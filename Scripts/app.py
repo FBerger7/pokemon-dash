@@ -45,6 +45,9 @@ class App:
         self.music_player.random_number = random.randint(1, 3)
         self.music_player.play_music_at_start()
 
+        for en in self.map.enemies:
+            en.last = pygame.time.get_ticks()
+
     def on_event(self, event):
         if event.type == pygame.QUIT:
             self._running = False
@@ -52,25 +55,43 @@ class App:
     def on_loop(self):
         self.move_delay += 1 if self.move_delay < 5 else self.move_delay
         move_allowed = self.move_delay > 4
+        for en in self.map.enemies:
+            now = pygame.time.get_ticks()
+            if now - en.last >= en.cooldown:
+                en.last = now
+                if self.map.move_enemy_test(en):
+                    self.on_init()
         if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
-                # self.music_player.play_sound(self.music_player.DIG_SOUND)
+                self.music_player.play_sound(self.music_player.DIG_SOUND)
+                # for en in self.map.enemies:
+                #     if self.map.move_enemy_right(en):
+                #         self.on_init()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_LEFT] and move_allowed:
                 self.map.move_ethan_left()
                 self.music_player.play_sound(self.music_player.DIG_SOUND)
+                # for en in self.map.enemies:
+                #     if self.map.move_enemy_left(en):
+                #         self.on_init()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_UP] and move_allowed:
                 self.map.move_ethan_up()
                 self.music_player.play_sound(self.music_player.DIG_SOUND)
+                # for en in self.map.enemies:
+                #     if self.map.move_enemy_up(en):
+                #         self.on_init()
                 self.move_delay = 0
                 move_allowed = False
             if keys[pygame.K_DOWN] and move_allowed:
                 self.map.move_ethan_down()
                 MusicPlayer.play_sound(self.music_player.DIG_SOUND)
+                # for en in self.map.enemies:
+                #     if self.map.move_enemy_down(en):
+                #         self.on_init()
                 self.move_delay = 0
 
     def on_render(self):
