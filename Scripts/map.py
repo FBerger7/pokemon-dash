@@ -7,6 +7,7 @@ from Scripts.tile_elements.ethan import Ethan
 from Scripts.tile_elements.gem import Gem
 from Scripts.tile_elements.wall import Wall
 from Scripts.tile_elements.boulder import Boulder
+from Scripts.tile_elements.movable import Movable
 
 import random
 
@@ -65,7 +66,7 @@ class Map:
 
             self.swap_tiles(self.tile_map[ethan.tile_x + 1][ethan.tile_y], ethan)
 
-            if isinstance(self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1], Boulder):
+            if isinstance(self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1], Movable):
                 self.tile_map[ethan.tile_x - 1][ethan.tile_y - 1].start_fall(self)
 
             self.check_neighbours(ethan.tile_x - 1, ethan.tile_y)
@@ -79,7 +80,7 @@ class Map:
         if not self.tile_map[ethan.tile_x - 1][ethan.tile_y].collision(self, ethan):
             self.swap_tiles(self.tile_map[ethan.tile_x - 1][ethan.tile_y], ethan)
 
-            if isinstance(self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1], Boulder):
+            if isinstance(self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1], Movable):
                 self.tile_map[ethan.tile_x + 1][ethan.tile_y - 1].start_fall(self)
 
             self.check_neighbours(ethan.tile_x + 1, ethan.tile_y)
@@ -104,7 +105,7 @@ class Map:
         if not self.tile_map[ethan.tile_x][ethan.tile_y + 1].collision(self, ethan):
             self.swap_tiles(self.tile_map[ethan.tile_x][ethan.tile_y + 1], ethan)
 
-            if isinstance(self.tile_map[ethan.tile_x][ethan.tile_y - 2], Boulder):
+            if isinstance(self.tile_map[ethan.tile_x][ethan.tile_y - 2], Movable):
                 self.tile_map[ethan.tile_x][ethan.tile_y - 2].start_fall(self)
 
             self.check_neighbours(ethan.tile_x, ethan.tile_y - 1)
@@ -201,14 +202,14 @@ class Map:
 
     def gemization(self, x, y):
         self.create_gem(x, y)
-        self.create_gem(x-1, y-1)
-        self.create_gem(x-1, y)
-        self.create_gem(x-1, y+1)
-        self.create_gem(x+1, y-1)
-        self.create_gem(x+1, y)
-        self.create_gem(x+1, y+1)
-        self.create_gem(x, y-1)
-        self.create_gem(x, y+1)
+        self.create_gem(x - 1, y - 1)
+        self.create_gem(x - 1, y)
+        self.create_gem(x - 1, y + 1)
+        self.create_gem(x + 1, y - 1)
+        self.create_gem(x + 1, y)
+        self.create_gem(x + 1, y + 1)
+        self.create_gem(x, y - 1)
+        self.create_gem(x, y + 1)
 
     def create_gem(self, x, y):
         if isinstance(self.tile_map[x][y], Ethan):
@@ -232,7 +233,7 @@ class Map:
         tile2.scalePos()
 
     def check_neighbours(self, x, y):
-        if isinstance(self.tile_map[x - 1][y], Boulder):
+        if isinstance(self.tile_map[x - 1][y], Movable):
             self.tile_map[x - 1][y].start_fall(self)
-        if isinstance(self.tile_map[x + 1][y], Boulder):
+        if isinstance(self.tile_map[x + 1][y], Movable):
             self.tile_map[x + 1][y].start_fall(self)
