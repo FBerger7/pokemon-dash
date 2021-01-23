@@ -29,5 +29,3 @@ class Boulder(Movable):
             return False
         else:
             return True
-
-

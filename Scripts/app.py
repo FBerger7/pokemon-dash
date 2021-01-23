@@ -5,7 +5,6 @@ import pygame
 from Scripts import MAP1
 from Scripts.map import Map
 from Scripts.music import Music
-from Scripts.sound import Sound
 from Scripts.music_player import MusicPlayer
 from Scripts.score import Score
 from config import SCREEN_WIDTH, SCREEN_HEIGHT, GAME_TITLE
@@ -36,6 +35,8 @@ class App:
     def on_init(self):
         pygame.init()
         self._display_surf = pygame.display.set_mode(self.size, pygame.HWSURFACE | pygame.DOUBLEBUF)
+        # self._display_surf.fill(BLACK)
+        # pygame.display.flip()
         self._running = True
         self.score = Score()
         self.map = Map(self.score).load(MAP1)
@@ -53,6 +54,8 @@ class App:
             self._running = False
 
     def on_loop(self):
+        if not self.map.ethan_is_alive:
+            self.on_init()
         self.move_delay += 1 if self.move_delay < 5 else self.move_delay
         move_allowed = self.move_delay > 4
         for en in self.map.enemies:
@@ -62,6 +65,7 @@ class App:
                 if self.map.move_enemy(en):
                     # self.delete_enemies()
                     self.on_init()
+                    break
         if keys := pygame.key.get_pressed():
             if keys[pygame.K_RIGHT] and move_allowed:
                 self.map.move_ethan_right()
@@ -125,6 +129,3 @@ class App:
             pygame.display.flip()
         self.on_cleanup()
 
-    # def delete_enemies(self):
-    #     for e in self.map.enemies:
-    #         del e

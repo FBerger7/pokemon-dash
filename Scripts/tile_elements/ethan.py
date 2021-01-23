@@ -43,6 +43,7 @@ class Ethan(Tile):
         self.posx = self.tile_x * self.scale * 20 + 5
         self.posy = self.tile_y * self.scale * 20 - 2
 
-    def die(self):
+    def die(self, map):
         #mechanika śmierci
+        map.ethan_is_alive = False
         return

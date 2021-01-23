@@ -6,6 +6,7 @@ import pygame
 
 from Scripts.music_player import MusicPlayer
 from Scripts.tile_elements.empty import Empty
+from Scripts.tile_elements.enemy import Enemy
 from Scripts.tile_elements.ethan import Ethan
 from Scripts.tile_elements.tile import Tile
 
@@ -52,8 +53,9 @@ class Movable(Tile):
                 i += 1
             pygame.time.wait(80)
         self.fall_thread = None
-        if isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Ethan) and i > 1:
-            map.tile_map[self.tile_x][self.tile_y + 1].die()
+        if (isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Ethan) or
+            isinstance(map.tile_map[self.tile_x][self.tile_y + 1], Enemy)) and i >= 1:
+            map.tile_map[self.tile_x][self.tile_y + 1].die(map)
         return
 
     def can_fall(self, map):

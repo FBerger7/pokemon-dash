@@ -18,11 +18,14 @@ class Enemy(Tile):
         self.posy = posy * self.scale * self.size[1]
         self.step = 40
         self.direction = 0
-        self.cooldown = 300
+        self.cooldown = 200
+        self.last = 0
 
     def collision(self, map, enemy):
         return True
 
-    def die(self):
+    def die(self, map):
         #mechanika śmierci
+        map.enemies.remove(self)
+        map.gemization(self.tile_x, self.tile_y)
         return

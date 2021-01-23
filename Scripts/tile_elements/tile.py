@@ -4,6 +4,8 @@ import os
 import pygame
 from pygame.sprite import AbstractGroup
 
+from Scripts import ENEMY_TILE
+
 
 class Tile(pygame.sprite.Sprite):
 

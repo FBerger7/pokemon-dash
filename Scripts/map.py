@@ -18,6 +18,7 @@ class Map:
         self.score = score
         self.music_player = MusicPlayer.get_instance()
         self.enemies: list = []
+        self.ethan_is_alive = True
 
     def load(self, file_path: str):
         with open(file_path) as map_logic:
@@ -38,8 +39,11 @@ class Map:
                     elif sign == '4':
                         self.tile_map[j].append(Gem(j, i))
                     elif sign == '5':
-                        self.tile_map[j].append(Enemy(j, i))
-                        self.enemies.append(Enemy(j, i))
+                        e = Enemy(j, i)
+                        self.tile_map[j].append(e)
+                        self.enemies.append(e)
+                        # self.tile_map[j].append(Enemy(j, i))
+                        # self.enemies.append(Enemy(j, i))
         return self
 
     def get_ethan(self) -> Ethan:
@@ -194,6 +198,10 @@ class Map:
         elif enemy.direction == 3:
             # enemy.direction = 0
             return self.move_enemy_left(enemy)
+
+    def gemization(self, tile_x, tile_y):
+        self.tile_map[tile_x][tile_y] = Gem(tile_x, tile_y)
+        self.tile_map[tile_x][tile_y].start_fall(self)
 
     def swap_tiles(self, tile1, tile2):
         x = tile2.tile_x
