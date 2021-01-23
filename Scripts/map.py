@@ -199,9 +199,23 @@ class Map:
             # enemy.direction = 0
             return self.move_enemy_left(enemy)
 
-    def gemization(self, tile_x, tile_y):
-        self.tile_map[tile_x][tile_y] = Gem(tile_x, tile_y)
-        self.tile_map[tile_x][tile_y].start_fall(self)
+    def gemization(self, x, y):
+        self.create_gem(x, y)
+        self.create_gem(x-1, y-1)
+        self.create_gem(x-1, y)
+        self.create_gem(x-1, y+1)
+        self.create_gem(x+1, y-1)
+        self.create_gem(x+1, y)
+        self.create_gem(x+1, y+1)
+        self.create_gem(x, y-1)
+        self.create_gem(x, y+1)
+
+    def create_gem(self, x, y):
+        if isinstance(self.tile_map[x][y], Ethan):
+            self.tile_map[x][y].die(self)
+        elif not isinstance(self.tile_map[x][y], Wall):
+            self.tile_map[x][y] = Gem(x, y)
+            self.tile_map[x][y].start_fall(self)
 
     def swap_tiles(self, tile1, tile2):
         x = tile2.tile_x
