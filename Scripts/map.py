@@ -1,25 +1,29 @@
 # -*- coding: utf-8 -*-
+import random
+
 from Scripts.music_player import MusicPlayer
+from Scripts.tile_elements.boulder import Boulder
 from Scripts.tile_elements.dirt import Dirt
+from Scripts.tile_elements.door import Door
 from Scripts.tile_elements.empty import Empty
 from Scripts.tile_elements.enemy import Enemy
 from Scripts.tile_elements.ethan import Ethan
 from Scripts.tile_elements.gem import Gem
-from Scripts.tile_elements.wall import Wall
-from Scripts.tile_elements.boulder import Boulder
 from Scripts.tile_elements.movable import Movable
-
-import random
+from Scripts.tile_elements.wall import Wall
 
 
 class Map:
 
     def __init__(self, score):
+        self._door_anim_delay: int = 0
         self.tile_map: list = []
         self.score = score
         self.music_player = MusicPlayer.get_instance()
         self.enemies: list = []
         self.ethan_is_alive = True
+        self.game_won = False
+        self.door_is_present: bool = False
 
     def load(self, file_path: str):
         with open(file_path) as map_logic:
@@ -237,3 +241,13 @@ class Map:
             self.tile_map[x - 1][y].start_fall(self)
         if isinstance(self.tile_map[x + 1][y], Movable):
             self.tile_map[x + 1][y].start_fall(self)
+
+    def make_door(self):
+        if not self.door_is_present:
+            self.tile_map[28][17] = Door(28, 17)
+            self.door_is_present = True
+        if self._door_anim_delay > 30 and self.door_is_present:
+            self.tile_map[28][17].change_sprite()
+            self._door_anim_delay = 0
+        if self.door_is_present:
+            self._door_anim_delay += 1

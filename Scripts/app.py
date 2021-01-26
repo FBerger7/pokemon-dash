@@ -43,7 +43,7 @@ class App:
         self.ethan = self.map.get_ethan()
 
         self.music_player = MusicPlayer.get_instance()
-        self.music_player.random_number = random.randint(1, 3)
+        self.music_player.random_number = random.randint(1, 5)
         self.music_player.play_music_at_start()
 
         for en in self.map.enemies:
@@ -58,6 +58,8 @@ class App:
             self.on_init()
         self.move_delay += 1 if self.move_delay < 5 else self.move_delay
         move_allowed = self.move_delay > 4
+        if self.score.check_door():
+            self.map.make_door()
         for en in self.map.enemies:
             now = pygame.time.get_ticks()
             if now - en.last >= en.cooldown:
@@ -103,6 +105,7 @@ class App:
             if keys[pygame.K_u]:
                 self.music_player.unpause()
 
+
     def on_render(self):
         self._display_surf.fill(BLACK)
         for row in self.map.tile_map:
@@ -127,5 +130,11 @@ class App:
             self.on_loop()
             self.on_render()
             pygame.display.flip()
+            if self.map.game_won:
+                self.score.display_end_screen(self._display_surf)
+                pygame.display.flip()
+                MusicPlayer.play_music(Music.MUSIC_VICTORY)
+                sleep(14)
+                self._running = False
         self.on_cleanup()
 

@@ -50,6 +50,12 @@ class MusicPlayer:
         elif self.random_number == 3:
             pygame.mixer.music.load(Music.MUSIC_START_3.value)
             pygame.mixer.music.play(-1)
+        elif self.random_number == 4:
+            pygame.mixer.music.load(Music.MUSIC_START_4.value)
+            pygame.mixer.music.play(-1)
+        elif self.random_number == 5:
+            pygame.mixer.music.load(Music.MUSIC_START_5.value)
+            pygame.mixer.music.play(-1)
 
     @staticmethod
     def play_music(melody: Enum):
